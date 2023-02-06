@@ -1,6 +1,4 @@
 {
-  "extends": ["@studiocompanion/eslint-config"],
-  "parserOptions": {
-    "project": ["./docs/tsconfig.json"]
-  }
+  "extends": ["../.eslintrc"],
+  "root": true
 }

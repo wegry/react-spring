@@ -31,14 +31,14 @@ raf.onFinish = fn => schedule(fn, onFinishQueue)
 
 let timeouts: Timeout[] = []
 raf.setTimeout = (handler, ms) => {
-  let time = raf.now() + ms
-  let cancel = () => {
-    let i = timeouts.findIndex(t => t.cancel == cancel)
+  const time = raf.now() + ms
+  const cancel = () => {
+    const i = timeouts.findIndex(t => t.cancel == cancel)
     if (~i) timeouts.splice(i, 1)
     pendingCount -= ~i ? 1 : 0
   }
 
-  let timeout: Timeout = { time, handler, cancel }
+  const timeout: Timeout = { time, handler, cancel }
   timeouts.splice(findTimeout(time), 0, timeout)
   pendingCount += 1
 
@@ -47,7 +47,7 @@ raf.setTimeout = (handler, ms) => {
 }
 
 /** Find the index where the given time is not greater. */
-let findTimeout = (time: number) =>
+const findTimeout = (time: number) =>
   ~(~timeouts.findIndex(t => t.time > time) || ~timeouts.length)
 
 raf.cancel = fn => {

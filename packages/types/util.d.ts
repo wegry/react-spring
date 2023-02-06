@@ -50,18 +50,8 @@ export type AssignableKeys<T, U> = T extends object
 export type Constrain<T, U> = [T] extends [Any] ? U : [T] extends [U] ? T : U
 
 /** Try to simplify `&` out of an object type */
-export type Remap<T> = {} & {
+export type Remap<T> = object & {
   [P in keyof T]: T[P]
-}
-
-export type Pick<T, K extends keyof T> = {} & {
-  [P in K]: T[P]
-}
-
-export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
-
-export type Partial<T> = {} & {
-  [P in keyof T]?: T[P] | undefined
 }
 
 export type Overwrite<T, U> = Remap<Omit<T, keyof U> & U>
@@ -85,10 +75,10 @@ export interface Lookup<T = any> {
   [key: string]: T
 }
 
-export type LoosePick<T, K> = {} & Pick<T, K & keyof T>
+export type LoosePick<T, K> = object & Pick<T, K & keyof T>
 
 /** Intersected with other object types to allow for unknown properties */
-export interface UnknownProps extends Lookup<unknown> {}
+export type UnknownProps = Lookup<unknown>
 
 /** Use `[T] extends [Any]` to know if a type parameter is `any` */
 export class Any {
@@ -152,6 +142,6 @@ export type ComponentPropsWithRef<T extends ElementType> =
     : React.PropsWithRef<React.ComponentProps<T>>
 
 // In @types/react, a "children" prop is required by the "FunctionComponent" type.
-export type ComponentType<P = {}> =
+export type ComponentType<P = object> =
   | React.ComponentClass<P>
   | LeafFunctionComponent<P>
